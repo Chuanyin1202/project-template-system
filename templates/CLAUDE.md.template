@@ -1,0 +1,254 @@
+# CLAUDE.md - {{PROJECT_NAME}} 專案配置
+
+## 📋 專案概述
+- **專案名稱**: {{PROJECT_NAME}}
+- **專案類型**: {{PROJECT_TYPE}}
+- **主要語言**: {{PRIMARY_LANGUAGE}}
+- **專案描述**: {{PROJECT_DESCRIPTION}}
+- **創建日期**: {{CREATED_DATE}}
+- **版本**: {{VERSION}}
+
+## 🎯 專案目標
+{{PROJECT_GOALS}}
+
+## 🏗️ 技術架構
+
+### 核心技術棧
+{{TECH_STACK}}
+
+### 專案結構
+```
+{{PROJECT_STRUCTURE}}
+```
+
+## 🛡️ 強制執行規則
+
+### 🚫 禁止的行為
+1. **禁止創建重複功能**
+   - 修改任何代碼前必須搜尋現有實現
+   - 使用 `grep -r "功能關鍵字" {{SOURCE_DIR}}/` 檢查
+   - 檢查相關的服務、工具類和常數檔案
+
+2. **禁止違反架構原則**
+   - 不得在視圖層放置業務邏輯
+   - 不得直接在 UI 中執行資料庫操作
+   - 不得繞過統一的錯誤處理機制
+   - 不得使用硬編碼的魔法數字
+
+3. **禁止忽略現有服務**
+   - 不得重新實現已存在的功能
+   - 不得創建新的日誌機制（使用專案統一的日誌服務）
+   - 不得自行處理錯誤（使用統一錯誤處理）
+
+### ✅ 必須執行的行為
+1. **代碼修改前的必要檢查**
+   ```bash
+   # 搜尋現有實現
+   grep -r "類似功能關鍵字" {{SOURCE_DIR}}/
+   find {{SOURCE_DIR}}/config/ -name "*.{{FILE_EXT}}" -exec grep -l "相關常數" {} \;
+   ```
+
+2. **架構遵循檢查**
+   - 必須使用專案既定的分層架構
+   - 必須遵循專案選定的設計模式
+   - 必須使用統一的錯誤處理
+   - 必須將常數提取到適當位置
+
+3. **代碼品質檢查**
+   - 單一檔案不超過 {{MAX_FILE_LINES}} 行
+   - 單一方法不超過 {{MAX_METHOD_LINES}} 行
+   - 必須使用有意義的變數命名
+   - 必須包含適當的錯誤處理
+
+## 🔧 開發工作流程
+
+### 標準開發步驟
+```yaml
+step1_analysis:
+  description: "分析需求與現有代碼"
+  actions:
+    - read: "閱讀相關現有檔案"
+    - search: "搜尋類似功能實現"
+    - check: "檢查相關常數和配置"
+
+step2_design:
+  description: "設計解決方案"
+  actions:
+    - follow: "遵循專案架構模式"
+    - reuse: "優先重用現有元件"
+    - extend: "擴展而非重新創建"
+
+step3_implementation:
+  description: "實現功能"
+  actions:
+    - constants: "提取魔法數字為常數"
+    - errors: "使用統一錯誤處理"
+    - logging: "使用專案日誌系統"
+    - testing: "編寫對應的測試"
+
+step4_validation:
+  description: "驗證實現"
+  actions:
+    - build: "確保編譯成功"
+    - test: "執行相關測試"
+    - lint: "執行程式碼檢查"
+
+step5_commit:
+  description: "提交代碼"
+  actions:
+    - format: "遵循 Git Commit 規範"
+    - review: "自我代碼審查"
+```
+
+## 📝 Git Commit 規範
+
+### 提交格式
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+### Type 類型
+- `feat`: 新功能
+- `fix`: 錯誤修復
+- `docs`: 文檔更新
+- `style`: 格式調整（不影響代碼運行的變動）
+- `refactor`: 重構（既不是新增功能，也不是修復錯誤）
+- `perf`: 性能優化
+- `test`: 增加測試
+- `build`: 構建過程或輔助工具的變動
+- `ci`: CI/CD 相關變更
+- `chore`: 其他雜項變更
+
+### 提交範例
+```bash
+feat(auth): 新增雙因素認證功能
+
+fix(api): 修復用戶資料更新失敗的問題
+
+docs: 更新 API 使用文檔
+
+refactor(service): 重構資料處理服務以提高效能
+```
+
+### 提交規則
+- 主題行不超過 50 個字符
+- 使用祈使語氣
+- 主題行結尾不加句號
+- 主題行後空一行再寫正文
+- 正文每行不超過 72 個字符
+
+## 🤖 AI 助手行為準則
+
+### 1. 開發原則
+- **程式碼重用優先**: 在新增任何功能前，必須先檢查現有程式碼
+- **DRY 原則**: Don't Repeat Yourself - 避免重複程式碼
+- **持續重構**: 發現重複邏輯時立即抽取為共用模組
+- **遵循既有模式**: 保持程式碼風格一致性
+
+### 2. 檔案管理
+- **最小化新建檔案**: 優先編輯現有檔案而非創建新檔案
+- **不主動創建文檔**: 除非明確要求，不創建 README 或其他文檔
+- **保持專案整潔**: 避免創建不必要的檔案
+
+### 3. 技術限制處理
+- **誠實透明**: 遇到技術限制時立即告知
+- **不使用模擬數據**: 禁止使用假數據或模擬實現
+- **等待用戶決策**: 由用戶決定替代方案
+
+### 4. 任務管理
+- **使用 TodoWrite 工具**: 對於複雜任務使用待辦清單追蹤進度
+- **即時更新狀態**: 完成任務後立即標記為完成
+- **單一進行中任務**: 同時只有一個任務處於進行中狀態
+
+## 📚 相關文檔
+- `DEVELOPMENT_KNOWLEDGE_BASE.md`: 技術發現和解決方案記錄
+- `PROJECT_SPECIFIC_RULES.md`: 專案特定規則和經驗
+- `validation-scripts/`: 專案檢查腳本
+
+## 🔧 專案特定配置
+
+### 環境設定
+{{ENVIRONMENT_SETTINGS}}
+
+### 建置命令
+```bash
+# 安裝依賴
+{{INSTALL_COMMAND}}
+
+# 開發模式
+{{DEV_COMMAND}}
+
+# 建置專案
+{{BUILD_COMMAND}}
+
+# 測試
+{{TEST_COMMAND}}
+
+# 程式碼檢查
+{{LINT_COMMAND}}
+```
+
+### Git 工作流程
+{{GIT_WORKFLOW}}
+
+## 🚀 部署配置
+{{DEPLOYMENT_CONFIG}}
+
+## 🔒 安全準則
+- 不在程式碼中硬編碼敏感資訊
+- 使用環境變數管理設定
+- 遵循 OWASP 安全最佳實踐
+- 定期更新依賴以修復安全漏洞
+
+## 📝 專案特定規則
+{{PROJECT_SPECIFIC_RULES}}
+
+## 🎨 程式碼風格
+{{CODE_STYLE_GUIDE}}
+
+## 🧪 測試策略
+{{TESTING_STRATEGY}}
+
+## 📊 專案度量標準
+
+### 代碼品質指標
+- **檔案大小**: < {{MAX_FILE_LINES}} 行
+- **方法長度**: < {{MAX_METHOD_LINES}} 行
+- **圈複雜度**: < {{MAX_COMPLEXITY}}
+- **測試覆蓋率**: > {{MIN_TEST_COVERAGE}}%
+- **重複代碼**: < {{MAX_DUPLICATION}}%
+
+### 性能指標
+- **頁面載入時間**: < {{MAX_LOAD_TIME}} 秒
+- **API 響應時間**: < {{MAX_API_RESPONSE}} ms
+- **記憶體使用**: < {{MAX_MEMORY_USAGE}}
+- **CPU 使用率**: < {{MAX_CPU_USAGE}}%
+
+## 🚨 違規檢測
+
+### 自動檢查
+專案包含自動化檢查腳本，執行以下命令進行檢查：
+```bash
+# 執行所有檢查
+./validation-scripts/check-all.sh
+
+# 檢查特定項目
+./validation-scripts/check-code-quality.sh
+./validation-scripts/check-duplicates.sh
+./validation-scripts/check-security.sh
+```
+
+### 代碼審查清單
+- [ ] 是否搜尋了現有實現？
+- [ ] 是否遵循了專案架構？
+- [ ] 是否使用了統一的錯誤處理？
+- [ ] 是否提取了魔法數字？
+- [ ] 是否包含適當的測試？
+- [ ] 是否更新了相關文檔？
+
+---
+*專案模板版本: 1.1.0 | 基於 SuperClaude 配置 | 整合 Voxly 最佳實踐*

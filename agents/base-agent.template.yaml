@@ -1,0 +1,151 @@
+# Agent 配置模板
+# 用於定義專案中的 AI Agent 行為和能力
+
+agent:
+  name: "{{AGENT_NAME}}"
+  version: "1.0.0"
+  description: "{{AGENT_DESCRIPTION}}"
+  type: "{{AGENT_TYPE}}" # development | testing | documentation | analysis | creative
+
+# Agent 核心能力
+capabilities:
+  - code_generation: {{CODE_GENERATION}}
+  - code_review: {{CODE_REVIEW}}
+  - testing: {{TESTING}}
+  - documentation: {{DOCUMENTATION}}
+  - refactoring: {{REFACTORING}}
+  - debugging: {{DEBUGGING}}
+  - architecture_design: {{ARCHITECTURE_DESIGN}}
+
+# Agent 角色定義
+personas:
+  primary:
+    name: "{{PRIMARY_PERSONA_NAME}}"
+    role: "{{PRIMARY_ROLE}}"
+    traits:
+      - "{{TRAIT_1}}"
+      - "{{TRAIT_2}}"
+      - "{{TRAIT_3}}"
+    
+  secondary:
+    - name: "{{SECONDARY_PERSONA_NAME}}"
+      role: "{{SECONDARY_ROLE}}"
+      activation_trigger: "{{ACTIVATION_TRIGGER}}"
+
+# 工作流程定義
+workflows:
+  default:
+    name: "標準開發流程"
+    steps:
+      - name: "需求分析"
+        action: "analyze_requirements"
+        tools: ["TodoWrite", "Read", "Grep"]
+      
+      - name: "程式碼檢查"
+        action: "check_existing_code"
+        tools: ["Grep", "Read", "LS"]
+      
+      - name: "實現功能"
+        action: "implement_feature"
+        tools: ["Edit", "Write", "MultiEdit"]
+      
+      - name: "測試驗證"
+        action: "test_validation"
+        tools: ["Bash", "Read"]
+      
+      - name: "程式碼審查"
+        action: "code_review"
+        tools: ["Read", "Grep"]
+
+# 工具使用策略
+tool_strategies:
+  search_before_create:
+    description: "創建新程式碼前必須搜尋現有實現"
+    tools_sequence:
+      - Grep
+      - Glob
+      - Read
+    
+  batch_operations:
+    description: "批次執行相關操作以提高效率"
+    preferred_tools:
+      - MultiEdit  # 優先使用批次編輯
+      - Task       # 複雜搜尋使用 Task agent
+
+# 決策規則
+decision_rules:
+  - rule: "遇到技術限制"
+    action: "立即停止並告知用戶"
+    
+  - rule: "發現重複程式碼"
+    action: "立即重構為共用模組"
+    
+  - rule: "需要新建檔案"
+    action: "先檢查是否可以修改現有檔案"
+    
+  - rule: "複雜任務（3步驟以上）"
+    action: "使用 TodoWrite 追蹤進度"
+
+# 品質標準
+quality_standards:
+  code_quality:
+    - "遵循 DRY 原則"
+    - "保持程式碼風格一致"
+    - "適當的錯誤處理"
+    - "有意義的變數命名"
+  
+  performance:
+    - "最小化記憶體使用"
+    - "優化演算法複雜度"
+    - "避免不必要的運算"
+  
+  security:
+    - "不硬編碼敏感資訊"
+    - "輸入驗證"
+    - "遵循 OWASP 準則"
+
+# 專案特定配置
+project_specific:
+  language_preferences: {{LANGUAGE_PREFERENCES}}
+  framework_constraints: {{FRAMEWORK_CONSTRAINTS}}
+  custom_rules: {{CUSTOM_RULES}}
+
+# 整合配置
+integrations:
+  mcp_servers:
+    - sequential-thinking
+    - context7
+    - puppeteer
+    - magic
+  
+  external_apis: {{EXTERNAL_APIS}}
+
+# 效能優化策略
+optimization:
+  token_economy:
+    mode: "aggressive" # aggressive | balanced | verbose
+    strategies:
+      - "使用簡潔回應"
+      - "批次工具調用"
+      - "避免重複讀取"
+  
+  context_management:
+    max_file_reads: 10
+    prefer_search: true
+    cache_strategy: "smart"
+
+# 錯誤處理
+error_handling:
+  on_tool_failure:
+    strategy: "retry_with_alternatives"
+    max_retries: 2
+  
+  on_limitation:
+    strategy: "inform_user_immediately"
+    provide_alternatives: true
+
+# 日誌和追蹤
+logging:
+  level: "{{LOG_LEVEL}}" # debug | info | warning | error
+  track_decisions: true
+  track_tool_usage: true

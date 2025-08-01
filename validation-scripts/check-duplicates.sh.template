@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# 檢查重複代碼腳本
+
+set -e
+
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SOURCE_DIR="${PROJECT_ROOT}/{{SOURCE_DIR}}"
+
+echo "🔍 檢查重複代碼..."
+
+# 簡單的重複代碼檢測
+# 尋找相同的函數/方法定義
+DUPLICATES=$(find $SOURCE_DIR -name "*.{{FILE_EXT}}" -exec grep -H "function\|def\|class\|interface" {} \; | 
+    sort | uniq -d | wc -l)
+
+if [ $DUPLICATES -gt 0 ]; then
+    echo "⚠️  發現 $DUPLICATES 個可能的重複定義"
+    exit 1
+fi
+
+# 檢查重複的導入/引用
+case "{{PRIMARY_LANGUAGE}}" in
+    "JavaScript"|"TypeScript")
+        DUPLICATE_IMPORTS=$(find $SOURCE_DIR -name "*.{{FILE_EXT}}" -exec grep -h "^import\|^const.*require" {} \; | 
+            sort | uniq -d | wc -l)
+        ;;
+    "Python")
+        DUPLICATE_IMPORTS=$(find $SOURCE_DIR -name "*.{{FILE_EXT}}" -exec grep -h "^import\|^from.*import" {} \; | 
+            sort | uniq -d | wc -l)
+        ;;
+    "Dart")
+        DUPLICATE_IMPORTS=$(find $SOURCE_DIR -name "*.{{FILE_EXT}}" -exec grep -h "^import" {} \; | 
+            sort | uniq -d | wc -l)
+        ;;
+    *)
+        DUPLICATE_IMPORTS=0
+        ;;
+esac
+
+if [ $DUPLICATE_IMPORTS -gt 0 ]; then
+    echo "⚠️  發現 $DUPLICATE_IMPORTS 個重複的導入語句"
+fi
+
+echo "✅ 重複代碼檢查完成"

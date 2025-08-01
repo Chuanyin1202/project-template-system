@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# 安全檢查腳本
+
+set -e
+
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SOURCE_DIR="${PROJECT_ROOT}/{{SOURCE_DIR}}"
+
+echo "🔍 執行安全檢查..."
+
+FOUND_ISSUES=0
+
+# 檢查硬編碼的敏感資訊
+echo "  檢查硬編碼的密碼..."
+if grep -r "password\s*=\s*[\"'][^\"']\+[\"']" $SOURCE_DIR --include="*.{{FILE_EXT}}" 2>/dev/null; then
+    echo "❌ 發現硬編碼的密碼！"
+    FOUND_ISSUES=$((FOUND_ISSUES + 1))
+fi
+
+echo "  檢查硬編碼的 API 金鑰..."
+if grep -r "api_key\|apiKey\|api-key" $SOURCE_DIR --include="*.{{FILE_EXT}}" | grep -v "process.env\|getenv\|environ" 2>/dev/null; then
+    echo "❌ 發現可能的硬編碼 API 金鑰！"
+    FOUND_ISSUES=$((FOUND_ISSUES + 1))
+fi
+
+echo "  檢查硬編碼的密鑰..."
+if grep -r "secret\|private_key\|privateKey" $SOURCE_DIR --include="*.{{FILE_EXT}}" | grep -v "process.env\|getenv\|environ" 2>/dev/null; then
+    echo "❌ 發現可能的硬編碼密鑰！"
+    FOUND_ISSUES=$((FOUND_ISSUES + 1))
+fi
+
+# 檢查不安全的隨機數生成
+echo "  檢查不安全的隨機數生成..."
+case "{{PRIMARY_LANGUAGE}}" in
+    "JavaScript"|"TypeScript")
+        if grep -r "Math\.random" $SOURCE_DIR --include="*.{{FILE_EXT}}" | grep -i "token\|password\|secret" 2>/dev/null; then
+            echo "❌ 發現使用 Math.random 生成敏感資料！"
+            FOUND_ISSUES=$((FOUND_ISSUES + 1))
+        fi
+        ;;
+    "Python")
+        if grep -r "random\." $SOURCE_DIR --include="*.{{FILE_EXT}}" | grep -v "random\.SystemRandom\|secrets\." | grep -i "token\|password\|secret" 2>/dev/null; then
+            echo "❌ 發現使用不安全的隨機數生成器！"
+            FOUND_ISSUES=$((FOUND_ISSUES + 1))
+        fi
+        ;;
+esac
+
+# 檢查 SQL 注入風險
+echo "  檢查 SQL 注入風險..."
+if grep -r "query.*+.*\|execute.*+.*" $SOURCE_DIR --include="*.{{FILE_EXT}}" | grep -v "?" 2>/dev/null; then
+    echo "⚠️  發現可能的 SQL 注入風險！"
+    FOUND_ISSUES=$((FOUND_ISSUES + 1))
+fi
+
+# 檢查不安全的檔案權限
+echo "  檢查檔案權限..."
+UNSAFE_PERMS=$(find $SOURCE_DIR -type f -perm /go+w 2>/dev/null | wc -l)
+if [ $UNSAFE_PERMS -gt 0 ]; then
+    echo "⚠️  發現 $UNSAFE_PERMS 個檔案有不安全的權限設定"
+    FOUND_ISSUES=$((FOUND_ISSUES + 1))
+fi
+
+if [ $FOUND_ISSUES -eq 0 ]; then
+    echo "✅ 安全檢查通過"
+    exit 0
+else
+    echo "❌ 發現 $FOUND_ISSUES 個安全問題"
+    exit 1
+fi

@@ -1,0 +1,131 @@
+#!/bin/bash
+
+# {{PROJECT_NAME}} - 綜合檢查腳本
+# 執行所有專案檢查項目
+
+set -e
+
+# 顏色定義
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# 專案根目錄
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SOURCE_DIR="${PROJECT_ROOT}/{{SOURCE_DIR}}"
+
+echo -e "${BLUE}╔════════════════════════════════════════╗${NC}"
+echo -e "${BLUE}║     {{PROJECT_NAME}} 專案檢查工具      ║${NC}"
+echo -e "${BLUE}╚════════════════════════════════════════╝${NC}"
+echo
+
+# 計數器
+TOTAL_CHECKS=0
+PASSED_CHECKS=0
+FAILED_CHECKS=0
+
+# 檢查函數
+run_check() {
+    local check_name="$1"
+    local check_command="$2"
+    
+    TOTAL_CHECKS=$((TOTAL_CHECKS + 1))
+    echo -n -e "${YELLOW}▶ ${check_name}...${NC} "
+    
+    if eval "$check_command" > /dev/null 2>&1; then
+        echo -e "${GREEN}✓ 通過${NC}"
+        PASSED_CHECKS=$((PASSED_CHECKS + 1))
+    else
+        echo -e "${RED}✗ 失敗${NC}"
+        FAILED_CHECKS=$((FAILED_CHECKS + 1))
+        # 顯示詳細錯誤（可選）
+        # eval "$check_command" 2>&1 | head -5
+    fi
+}
+
+# 執行各項檢查
+echo -e "${BLUE}開始執行檢查...${NC}\n"
+
+# 1. 代碼品質檢查
+echo -e "${BLUE}[代碼品質檢查]${NC}"
+run_check "檢查代碼格式" "./validation-scripts/check-code-quality.sh"
+run_check "檢查檔案大小" "! find $SOURCE_DIR -name '*.{{FILE_EXT}}' -exec wc -l {} + | awk '\$1 > {{MAX_FILE_LINES}}'"
+run_check "檢查方法長度" "./validation-scripts/check-method-length.sh"
+echo
+
+# 2. 架構合規檢查
+echo -e "${BLUE}[架構合規檢查]${NC}"
+run_check "檢查重複代碼" "./validation-scripts/check-duplicates.sh"
+run_check "檢查魔法數字" "! grep -r '[0-9]\{3,\}' $SOURCE_DIR --include='*.{{FILE_EXT}}' | grep -v '{{CONSTANTS_DIR}}'"
+run_check "檢查硬編碼字串" "./validation-scripts/check-hardcoded-strings.sh"
+echo
+
+# 3. 安全檢查
+echo -e "${BLUE}[安全檢查]${NC}"
+run_check "檢查敏感資訊" "./validation-scripts/check-security.sh"
+run_check "檢查環境變數使用" "! grep -r 'password\|secret\|key' $SOURCE_DIR --include='*.{{FILE_EXT}}' | grep -v '.env'"
+echo
+
+# 4. 依賴檢查
+echo -e "${BLUE}[依賴檢查]${NC}"
+run_check "檢查過時的依賴" "./validation-scripts/check-dependencies.sh"
+run_check "檢查未使用的依賴" "./validation-scripts/check-unused-deps.sh"
+echo
+
+# 5. 測試檢查
+echo -e "${BLUE}[測試檢查]${NC}"
+run_check "執行單元測試" "{{TEST_COMMAND}}"
+run_check "檢查測試覆蓋率" "./validation-scripts/check-coverage.sh"
+echo
+
+# 6. 文檔檢查
+echo -e "${BLUE}[文檔檢查]${NC}"
+run_check "檢查 README 存在" "[ -f $PROJECT_ROOT/README.md ]"
+run_check "檢查 CLAUDE.md 存在" "[ -f $PROJECT_ROOT/CLAUDE.md ]"
+run_check "檢查 API 文檔" "./validation-scripts/check-api-docs.sh"
+echo
+
+# 7. Git 檢查
+echo -e "${BLUE}[Git 檢查]${NC}"
+run_check "檢查未提交的變更" "[ -z \"$(git status --porcelain)\" ]"
+run_check "檢查分支名稱規範" "./validation-scripts/check-branch-name.sh"
+echo
+
+# 8. 專案特定檢查
+if [ -f "./validation-scripts/project-specific-checks.sh" ]; then
+    echo -e "${BLUE}[專案特定檢查]${NC}"
+    source ./validation-scripts/project-specific-checks.sh
+    echo
+fi
+
+# 顯示結果摘要
+echo -e "${BLUE}╔════════════════════════════════════════╗${NC}"
+echo -e "${BLUE}║              檢查結果摘要              ║${NC}"
+echo -e "${BLUE}╚════════════════════════════════════════╝${NC}"
+echo
+echo -e "總檢查項目: ${TOTAL_CHECKS}"
+echo -e "${GREEN}通過: ${PASSED_CHECKS}${NC}"
+echo -e "${RED}失敗: ${FAILED_CHECKS}${NC}"
+echo
+
+# 計算通過率
+PASS_RATE=$((PASSED_CHECKS * 100 / TOTAL_CHECKS))
+echo -n "通過率: "
+if [ $PASS_RATE -ge 90 ]; then
+    echo -e "${GREEN}${PASS_RATE}%${NC} 🎉"
+elif [ $PASS_RATE -ge 70 ]; then
+    echo -e "${YELLOW}${PASS_RATE}%${NC} ⚠️"
+else
+    echo -e "${RED}${PASS_RATE}%${NC} ❌"
+fi
+
+# 返回狀態碼
+if [ $FAILED_CHECKS -eq 0 ]; then
+    echo -e "\n${GREEN}✅ 所有檢查通過！${NC}"
+    exit 0
+else
+    echo -e "\n${RED}❌ 有 ${FAILED_CHECKS} 項檢查失敗，請修復後再試。${NC}"
+    exit 1
+fi

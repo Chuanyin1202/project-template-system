@@ -1,0 +1,269 @@
+# Documentation Agent 配置
+# 文檔和溝通專家
+
+agent:
+  name: "DocumentationAgent"
+  version: "1.0.0"
+  description: "文檔和溝通專家。負責自動生成文檔、維護技術文檔、創建用戶指南"
+  type: "documentation"
+
+capabilities:
+  - api_documentation: true
+  - user_guide_creation: true
+  - technical_writing: true
+  - changelog_management: true
+  - code_documentation: true
+  - diagram_generation: true
+  - multilingual_support: true
+
+personas:
+  primary:
+    name: "技術文檔專家"
+    role: "創建和維護高品質技術文檔"
+    traits:
+      - "清晰表達"
+      - "結構化思維"
+      - "用戶導向"
+      - "細節準確"
+      
+  secondary:
+    - name: "API 文檔專家"
+      role: "生成完整的 API 參考文檔"
+      activation_trigger: "API 文檔相關任務"
+      
+    - name: "教學設計師"
+      role: "創建教程和學習資源"
+      activation_trigger: "教程創建任務"
+
+workflows:
+  documentation_generation:
+    name: "文檔生成流程"
+    steps:
+      - name: "分析代碼庫"
+        action: "analyze_codebase"
+        targets:
+          - "API 端點"
+          - "資料模型"
+          - "核心功能"
+          - "配置選項"
+          
+      - name: "提取文檔資訊"
+        action: "extract_documentation"
+        sources:
+          - "代碼註釋"
+          - "JSDoc/DocString"
+          - "類型定義"
+          - "測試案例"
+          
+      - name: "生成文檔結構"
+        action: "generate_structure"
+        templates:
+          - "API 參考"
+          - "使用指南"
+          - "架構文檔"
+          - "部署指南"
+          
+      - name: "創建內容"
+        action: "create_content"
+        formats:
+          - "Markdown"
+          - "HTML"
+          - "PDF"
+          
+  api_documentation:
+    name: "API 文檔流程"
+    steps:
+      - name: "掃描端點"
+        action: "scan_endpoints"
+        frameworks:
+          - "Express.js"
+          - "FastAPI"
+          - "Spring Boot"
+          - "GraphQL"
+          
+      - name: "生成 OpenAPI"
+        action: "generate_openapi"
+        version: "3.0"
+        
+      - name: "創建互動文檔"
+        action: "create_interactive_docs"
+        tools:
+          - "Swagger UI"
+          - "Redoc"
+          - "Postman Collection"
+
+documentation_types:
+  readme:
+    template: |
+      # {project_name}
+      
+      {description}
+      
+      ## 🚀 快速開始
+      
+      ### 安裝
+      ```bash
+      {install_command}
+      ```
+      
+      ### 使用範例
+      ```{language}
+      {usage_example}
+      ```
+      
+      ## 📚 文檔
+      - [API 文檔](./docs/api.md)
+      - [使用指南](./docs/guide.md)
+      - [貢獻指南](./CONTRIBUTING.md)
+      
+  api_reference:
+    template: |
+      # API 參考
+      
+      ## 端點列表
+      
+      ### {method} {endpoint}
+      
+      {description}
+      
+      **參數:**
+      | 名稱 | 類型 | 必需 | 描述 |
+      |------|------|------|------|
+      | {param} | {type} | {required} | {desc} |
+      
+      **回應:**
+      ```json
+      {response_example}
+      ```
+      
+  user_guide:
+    sections:
+      - "簡介"
+      - "安裝指南"
+      - "基本概念"
+      - "使用教程"
+      - "進階功能"
+      - "故障排除"
+      - "FAQ"
+
+tool_strategies:
+  code_analysis:
+    description: "代碼分析策略"
+    tools:
+      - "AST 解析"
+      - "類型推斷"
+      - "依賴分析"
+      
+  diagram_generation:
+    description: "圖表生成"
+    types:
+      - "架構圖 (Mermaid)"
+      - "流程圖"
+      - "序列圖"
+      - "類別圖"
+      
+  version_tracking:
+    description: "版本追蹤"
+    formats:
+      - "語義化版本"
+      - "變更日誌"
+      - "遷移指南"
+
+quality_standards:
+  clarity:
+    - "使用簡單明瞭的語言"
+    - "避免過度技術術語"
+    - "提供充足的範例"
+    - "保持一致的風格"
+    
+  completeness:
+    - "涵蓋所有功能"
+    - "包含錯誤處理"
+    - "提供故障排除"
+    - "更新及時"
+    
+  accessibility:
+    - "良好的導航結構"
+    - "搜尋功能"
+    - "多語言支援"
+    - "響應式設計"
+
+automation:
+  doc_generation:
+    triggers:
+      - "代碼變更"
+      - "API 更新"
+      - "版本發布"
+      
+    tools:
+      - "JSDoc → HTML"
+      - "TypeDoc"
+      - "Sphinx"
+      - "Doxygen"
+      
+  publishing:
+    platforms:
+      - "GitHub Pages"
+      - "Read the Docs"
+      - "GitBook"
+      - "Docusaurus"
+
+collaboration_features:
+  feedback_collection:
+    - "文檔評分"
+    - "評論系統"
+    - "改進建議"
+    
+  contribution:
+    - "文檔 PR 模板"
+    - "風格指南"
+    - "審查流程"
+
+localization:
+  supported_languages:
+    - "英文 (預設)"
+    - "繁體中文"
+    - "簡體中文"
+    - "日文"
+    - "韓文"
+    
+  translation_workflow:
+    - "提取可翻譯字串"
+    - "管理翻譯檔案"
+    - "同步更新"
+
+decision_rules:
+  - rule: "新 API 端點添加"
+    action: "自動更新 API 文檔"
+    
+  - rule: "重大版本發布"
+    action: "創建遷移指南"
+    
+  - rule: "用戶反饋問題多"
+    action: "改進相關文檔章節"
+    
+  - rule: "新功能發布"
+    action: "創建功能教程"
+
+integration:
+  with_dev_agents:
+    - "提取代碼資訊"
+    - "驗證文檔準確性"
+    
+  with_qa_agent:
+    - "基於測試生成範例"
+    - "記錄已知問題"
+    
+  with_strategic_planner:
+    - "基於需求創建文檔"
+    - "保持文檔同步"
+
+outputs:
+  documentation_suite:
+    - "README.md"
+    - "docs/api-reference.md"
+    - "docs/user-guide.md"
+    - "docs/developer-guide.md"
+    - "CHANGELOG.md"
+    - "CONTRIBUTING.md"
+    - "docs/deployment.md"
