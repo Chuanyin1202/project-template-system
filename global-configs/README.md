@@ -1,167 +1,137 @@
-# 🌟 SuperClaude 全域配置
+# 🌟 SuperClaude v3 全域配置
 
-這個目錄包含了完整的 SuperClaude v2.0.1 配置文件，提供進階的 AI 開發能力。
+這個目錄包含了配合 SuperClaude v3 的客製化擴展配置，採用最新的模組化架構。
 
 ## 📁 目錄結構
 
 ```
 global-configs/
-├── CLAUDE.md              # SuperClaude 主配置文件
-├── commands/              # 命令模式配置文件
-│   ├── shared/           # 共享配置模式
-│   └── *.md             # 各種專業命令定義
-├── shared/               # SuperClaude 核心配置
-│   ├── superclaude-core.yml      # 核心功能配置
-│   ├── superclaude-mcp.yml       # MCP 整合配置
-│   ├── superclaude-personas.yml  # 認知原型配置
-│   └── superclaude-rules.yml     # 規則系統配置
-└── README.md             # 本文件
+├── CLAUDE.md              # SuperClaude 入口文件
+├── EXTENSIONS.md          # 客製化擴展管理
+└── project-customs/       # 客製化功能模組
+    ├── chinese-mode.md        # 中文優先模式
+    ├── time-awareness.md      # 時間意識同步
+    ├── knowledge-base.md      # 開發知識庫
+    ├── technical-honesty.md   # 技術誠實原則
+    ├── code-reuse.md         # 程式碼重用檢查
+    └── flutter-standards.md   # Flutter 規範
 ```
 
-## 🚀 SuperClaude 特色功能
+## 🚀 使用方式
 
-### 核心能力
-- **🧠 Advanced Token Economy**: 智能 token 管理和優化
-- **⚡ UltraCompressed Mode**: 高效壓縮輸出模式
-- **🎯 Intelligent Auto-Activation**: 智能自動啟動功能
-- **📊 Performance Standards**: 嚴格的性能基準
-- **🔍 Evidence-Based Standards**: 基於證據的開發標準
+### 前置要求
+您需要先安裝 SuperClaude v3：
+1. SuperClaude v3 會自動生成核心文件（COMMANDS.md、FLAGS.md 等）
+2. 這些文件位於 `~/.claude/` 目錄
+3. 確認使用的是 SuperClaude v3（支援模組化 Markdown 架構）
 
-### 專業功能
-- **🌐 語言要求**: 中文優先回覆系統
-- **⏰ 時間意識**: 自動時間同步機制
-- **📝 Development Knowledge Base**: 自動知識庫管理
-- **🔄 程式碼重用原則**: 智能代碼復用檢查
-- **🛡️ 開發限制處理**: 嚴格的技術限制處理
+### 配置架構
 
-### MCP 整合
-- **🔌 Server Capabilities Extended**: 擴展的服務器能力
-- **💰 Token Economics**: 智能 token 經濟學
-- **🔄 Workflows**: 高級工作流程管理
-- **🎭 Cognitive Archetypes**: 認知原型系統
-
-## 📖 使用方式
-
-### 在新專案中使用
-
-使用 `init-project.sh` 創建專案時，選擇配置類型：
-
-```bash
-./tools/init-project.sh
-
-# 選擇配置類型：
-# A) 標準專案配置（適合一般開發）
-# B) SuperClaude 全域配置（高級功能）
-# C) 合併配置（結合兩者優勢）
+```
+~/.claude/                    # SuperClaude 核心配置
+├── CLAUDE.md                # 引用核心模組
+├── COMMANDS.md              # 命令系統
+├── FLAGS.md                 # 標誌系統
+├── PRINCIPLES.md            # 原則
+├── RULES.md                 # 規則
+├── MCP.md                   # MCP 服務器
+├── PERSONAS.md              # 人格系統
+├── ORCHESTRATOR.md          # 智能路由
+├── MODES.md                 # 操作模式
+├── EXTENSIONS.md            # 擴展管理（客製化）
+└── project-customs/         # 客製化模組（客製化）
 ```
 
-### 手動整合到現有專案
+### 整合客製化功能
 
-1. **複製主配置**：
-   ```bash
-   cp global-configs/CLAUDE.md your-project/.claude/
-   ```
+1. **全域啟用**（推薦）
+   - 將 `EXTENSIONS.md` 複製到 `~/.claude/`
+   - 將 `project-customs/` 目錄複製到 `~/.claude/`
+   - 在 `~/.claude/CLAUDE.md` 最後添加：
+     ```markdown
+     # Custom Extensions (Optional)
+     @EXTENSIONS.md
+     ```
 
-2. **複製依賴文件**（如果需要）：
-   ```bash
-   cp -r global-configs/commands your-project/.claude/
-   cp -r global-configs/shared your-project/.claude/
-   ```
+2. **專案級別啟用**
+   - 在專案中創建 `.claude/PROJECT_CONFIG.md`
+   - 選擇性引用需要的擴展：
+     ```markdown
+     # 專案配置
+     @~/.claude/project-customs/chinese-mode.md
+     @~/.claude/project-customs/knowledge-base.md
+     # ... 其他需要的擴展
+     ```
 
-3. **調整路徑**：
-   確保 CLAUDE.md 中的 @include 路徑正確指向複製的文件。
+## 🌟 客製化功能說明
 
-## 🎯 配置說明
+### 1. 🌐 中文優先模式
+- 強制使用中文回覆
+- 代碼註釋使用中文
+- 保留必要的英文技術術語
 
-### CLAUDE.md 主要區塊
+### 2. ⏰ 時間意識同步
+- 每次對話開始執行 `date` 命令
+- 避免使用錯誤的日期
+- 基於系統時間而非內部時鐘
 
-1. **Core Configuration**
-   - 核心哲學和行為準則
-   - 思考模式設定
+### 3. 🧠 開發知識庫管理
+- 自動維護 `DEVELOPMENT_KNOWLEDGE_BASE.md`
+- 記錄技術發現、挑戰和解決方案
+- 結構化的知識管理模板
 
-2. **Performance Optimization**
-   - Token 經濟管理
-   - 壓縮輸出模式
-   - 成本優化
+### 4. 🚫 技術誠實原則
+- 禁止使用模擬或假資料
+- 遇到限制必須立即停止並說明
+- 由用戶決定替代方案
 
-3. **Development Practices**
-   - 代碼生成規範
-   - 品質標準
-   - 安全準則
+### 5. ♻️ 程式碼重用檢查
+- 修改前必須徹底檢查現有架構
+- 優先使用和擴展現有元件
+- 嚴格遵循 DRY 原則
 
-4. **Language & Workflow**
-   - 中文回覆設定
-   - 時間同步機制
-   - 檔案管理原則
+### 6. 📱 Flutter/Android 規範
+- 預設編譯 ARM64 release APK
+- 使用 --split-per-abi 優化檔案大小
+- 提供最佳實踐建議
 
-### 自定義配置
+## 📖 配置優先級
 
-您可以根據專案需求調整配置：
-
-```yaml
-# 範例：專案特定設定
-project_specific:
-  language: "zh-TW"           # 繁體中文
-  code_style: "strict"        # 嚴格代碼風格
-  performance_mode: "high"    # 高性能模式
+```
+全域配置 (~/.claude/)
+    ↓
+專案配置 (.claude/)
+    ↓
+會話覆蓋 (命令行標誌)
 ```
 
-## 🔧 高級功能
+## 🔧 與 Agent 系統整合
 
-### 1. 智能 Token 管理
-SuperClaude 會自動優化 token 使用，提供：
-- 動態壓縮輸出
-- 智能上下文管理
-- 成本效益分析
+本配置與 project-template-system 的九大 Agent 系統完全相容：
+- Agents 會自動識別並使用這些擴展功能
+- 可以在 Agent 配置中指定特定擴展
+- 支援 Agent 級別的配置覆蓋
 
-### 2. 認知原型系統
-支援多種 AI 人格模式：
-- 技術專家模式
-- 產品經理模式
-- 品質保證模式
-- 文檔專家模式
+## 📄 版本資訊
 
-### 3. MCP 深度整合
-- 無縫連接外部服務
-- 智能資料處理
-- 自動化工作流程
+- **更新日期**：2025-08-03
+- **SuperClaude 版本**：配合 SuperClaude v3（最新版）
+  - 支援 Wave Orchestration Engine
+  - 支援 11 個專業 Personas
+  - 支援 Loop 命令
+  - 完整 MCP 服務器整合（Context7、Sequential、Magic、Playwright 等）
+- **配置架構**：基於最新模組化 Markdown 架構（非 YAML）
+- **整合內容**：project-template-system v1.3.0 客製化功能
 
-## ⚠️ 注意事項
+## 🤝 貢獻指南
 
-### 兼容性
-- 需要 Claude Code v1.0+ 支援
-- 部分功能需要 MCP 服務器
-- @include 語法需要正確的文件路徑
-
-### 性能考量
-- SuperClaude 配置較為複雜，可能增加初始載入時間
-- 建議在需要高級功能時才使用完整配置
-- 可以選擇性啟用功能模組
-
-### 自定義建議
-- 根據團隊需求調整語言設定
-- 可以移除不需要的功能模組
-- 建議保留核心安全和品質檢查
-
-## 🆚 與標準配置比較
-
-| 功能 | 標準配置 | SuperClaude |
-|------|----------|-------------|
-| 基礎 AI 能力 | ✅ | ✅ |
-| 專案模板 | ✅ | ✅ |
-| Agent 協作 | ✅ | ✅ |
-| 高級 Token 管理 | ❌ | ✅ |
-| 認知原型系統 | ❌ | ✅ |
-| MCP 深度整合 | ❌ | ✅ |
-| 中文優化 | 基礎 | 完整 |
-| 性能優化 | 基礎 | 高級 |
-
-## 📚 更多資源
-
-- [SuperClaude 官方文檔](https://github.com/your-repo/superclaude)
-- [MCP 協議說明](https://modelcontextprotocol.io/)
-- [認知原型指南](https://docs.anthropic.com/claude/docs)
+1. 新增擴展模組到 `project-customs/`
+2. 在 `EXTENSIONS.md` 中註冊新模組
+3. 更新本 README 文檔
+4. 提交 Pull Request
 
 ---
 
-*SuperClaude v2.0.1 | 專業 AI 開發框架 | 中文優化版本*
+<p align="center">
+  <b>🚀 SuperClaude + 客製化擴展 = 極致開發體驗！</b>
+</p>

@@ -275,6 +275,8 @@ flutter drive --target=test_driver/app.dart
 # 評論系統設計
 
 ## 資料模型
+```
+
 ```mermaid
 erDiagram
     POST ||--o{ COMMENT : has
@@ -288,6 +290,7 @@ erDiagram
     }
 ```
 
+```markdown
 ## API 設計
 - GET /api/posts/{id}/comments
 - POST /api/posts/{id}/comments

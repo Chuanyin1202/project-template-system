@@ -1,12 +1,12 @@
-# 🚀 專案模板系統 (Project Template System) v1.3.0
+# 🚀 專案模板系統 (Project Template System) v1.3.1
 
 一個革命性的 AI 驅動開發框架，整合九大專業 Agent 和 SuperClaude 全域配置，從架構設計到部署運維的完整解決方案。
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.3.0-blue.svg" alt="Version">
+  <img src="https://img.shields.io/badge/version-1.3.1-blue.svg" alt="Version">
   <img src="https://img.shields.io/badge/agents-9-green.svg" alt="Agents">
   <img src="https://img.shields.io/badge/configs-3-purple.svg" alt="Configurations">
-  <img src="https://img.shields.io/badge/superclaude-integrated-gold.svg" alt="SuperClaude">
+  <img src="https://img.shields.io/badge/superclaude-v3-gold.svg" alt="SuperClaude v3">
 </p>
 
 ## 🌟 核心特色
@@ -50,12 +50,37 @@ graph TD
 ### 30 秒上手
 
 ```bash
-# 1. 創建新專案
-./project-template-system/tools/init-project.sh
+# 1. 克隆倉庫
+git clone https://github.com/your-username/project-template-system.git
+cd project-template-system
 
-# 2. 選擇配置類型（標準/SuperClaude/合併）
-# 3. 選擇 Agent 組合
-# 4. 開始開發！
+# 2. 創建新專案（跨平台 Python 版本）
+python tools/init-project.py    # Windows
+python3 tools/init-project.py   # Linux/macOS
+
+# 3. 選擇專案類型和 Agent 配置
+# 4. 選擇配置類型（標準/SuperClaude v3/合併）
+# 5. 開始開發！
+```
+
+### 不同平台執行方式
+
+**Windows**:
+```cmd
+# 方法一：Python（推薦）
+python tools\init-project.py
+
+# 方法二：批次檔
+tools\init-project.bat
+```
+
+**Linux/macOS**:
+```bash
+# 方法一：Python（推薦）
+python3 tools/init-project.py
+
+# 方法二：Shell 腳本
+./tools/init-project.sh
 ```
 
 ### 🌟 SuperClaude 配置特色
@@ -69,10 +94,22 @@ graph TD
 
 ### 分析現有專案
 
+**跨平台 Python 版本**：
 ```bash
 # 分析並配置現有專案
-./project-template-system/tools/analyze-project.sh /path/to/your/project
+python tools/analyze-project.py /path/to/your/project
+
+# 或使用原生腳本
+./tools/analyze-project.sh /path/to/your/project  # Linux/macOS
+tools\analyze-project.bat C:\path\to\project       # Windows
 ```
+
+**分析功能**：
+- 自動檢測程式語言和框架
+- 分析專案結構和依賴
+- 計算代碼指標
+- 生成 CLAUDE.md 配置
+- 輸出詳細分析報告
 
 詳細教學請參考 [快速開始指南](docs/QUICK_START.md)
 
@@ -99,10 +136,14 @@ project-template-system/
 │   ├── devops-agent.yaml               # DevOps 專家
 │   ├── documentation-agent.yaml         # 文檔專家
 │   └── ...                             # 開發者 Agents
-├── validation-scripts/          # 自動化檢查腳本
-├── tools/                       # 工具腳本
-│   ├── init-project.sh         # 專案初始化（v1.3.0）
-│   └── analyze-project.sh      # 專案分析工具
+├── validation-scripts/          # 跨平台 Python 驗證腳本
+├── tools/                       # 跨平台工具腳本
+│   ├── init-project.py         # 專案初始化（主要版本，完整功能）
+│   ├── init-project.sh         # Shell 版本（調用 Python）
+│   ├── init-project.bat        # Windows 批次檔（調用 Python）
+│   ├── analyze-project.py      # 專案分析（Python 版本）
+│   ├── analyze-project.sh      # Shell 版本
+│   └── analyze-project.bat     # Windows 批次檔
 └── docs/                        # 詳細文檔
     ├── QUICK_START.md          # 快速開始
     ├── AGENT_GUIDE.md          # Agent 詳解
@@ -165,6 +206,19 @@ project-template-system/
 
 ## 📈 版本歷史
 
+### v1.3.2 (2025-08-03) - Agent 功能恢復與跨平台改進
+- 🔧 恢復完整的 9 個 Agent 選擇功能
+- 🐍 主要使用 Python 版本確保跨平台兼容性（724行完整實現）
+- 🌍 解決 Windows 編碼問題（cp950）
+- 📚 更新文檔以反映新的執行方式
+- 🧹 清理不必要的備份文件
+
+### v1.3.1 (2025-08-03) - SuperClaude v3 架構更新
+- 🆕 更新為 SuperClaude v3 模組化架構
+- 📦 分離核心功能和客製化擴展
+- 🔧 簡化配置結構（CLAUDE.md + EXTENSIONS.md + project-customs/）
+- 🚀 完整支援 SuperClaude v3 功能（Wave Orchestration、11 個 Personas、Loop 命令等）
+
 ### v1.3.0 (2025-08-02) - SuperClaude 整合
 - 🌟 整合 SuperClaude v2.0.1 全域配置
 - 🔧 三種配置模式支援（標準/SuperClaude/合併）
@@ -183,13 +237,34 @@ project-template-system/
 ### v1.1.0 (2025-08-02) - Voxly 最佳實踐
 - 整合 Voxly 專案經驗
 - 強制執行規則系統
-- 自動化檢查腳本
+- 跨平台 Python 驗證腳本
 - Git Commit 規範
 
 ### v1.0.0 (2025-08-01) - 初始版本
 - 基礎模板系統
 - 三個核心 Agent
 - 專案初始化工具
+
+## 🔍 專案品質驗證
+
+### 跨平台 Python 驗證工具
+
+專案包含完整的品質驗證工具，支援多種程式語言：
+
+```bash
+# 運行所有檢查
+python validation-scripts/check-all.py
+
+# 單獨運行檢查
+python validation-scripts/check-code-quality.py  # 代碼品質
+python validation-scripts/check-security.py      # 安全性
+python validation-scripts/check-duplicates.py    # 重複代碼
+
+# 使用自定義配置
+python validation-scripts/validator.py --config my-config.json
+```
+
+**支援的語言**：Python、JavaScript、TypeScript、Dart、Go
 
 ## 🛠️ 高級功能
 
@@ -249,7 +324,7 @@ agents:
 ## 🙏 致謝
 
 - 感謝 Voxly 專案提供的最佳實踐
-- 感謝 SuperClaude v2.0.1 的強大配置系統
+- 感謝 SuperClaude v3 的強大配置系統
 - 感謝所有貢獻者的努力
 - 特別感謝 Claude AI 的強大能力
 

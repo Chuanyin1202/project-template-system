@@ -1,0 +1,25 @@
+{
+  "source_dir": "src",
+  "file_extensions": [".py", ".js", ".ts", ".dart", ".java", ".go"],
+  "max_file_lines": 500,
+  "max_line_length": 120,
+  "max_function_lines": 50,
+  "max_complexity": 10,
+  "excluded_paths": [
+    "node_modules",
+    "venv",
+    "build",
+    "dist",
+    ".git"
+  ],
+  "security": {
+    "check_permissions": true,
+    "check_secrets": true,
+    "check_sql_injection": true
+  },
+  "quality": {
+    "check_naming": true,
+    "check_imports": true,
+    "check_complexity": true
+  }
+}

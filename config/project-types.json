@@ -1,0 +1,72 @@
+{
+  "basic": {
+    "description": "基礎專案模板",
+    "structure": [
+      "src",
+      "tests",
+      "docs"
+    ]
+  },
+  "python": {
+    "description": "Python 專案模板",
+    "structure": [
+      "src",
+      "tests",
+      "docs",
+      "requirements.txt"
+    ]
+  },
+  "javascript": {
+    "description": "JavaScript/Node.js 專案模板",
+    "structure": [
+      "src",
+      "tests",
+      "public",
+      "docs"
+    ]
+  },
+  "flutter": {
+    "description": "Flutter 應用專案模板",
+    "structure": [
+      "lib",
+      {
+        "lib": [
+          "core",
+          "data",
+          "presentation",
+          "domain"
+        ]
+      },
+      "test",
+      "assets",
+      {
+        "assets": [
+          "images",
+          "fonts",
+          "sounds"
+        ]
+      }
+    ]
+  },
+  "fullstack": {
+    "description": "全端專案模板",
+    "structure": [
+      "frontend",
+      {
+        "frontend": [
+          "src",
+          "public"
+        ]
+      },
+      "backend",
+      {
+        "backend": [
+          "src",
+          "tests"
+        ]
+      },
+      "shared",
+      "docs"
+    ]
+  }
+}

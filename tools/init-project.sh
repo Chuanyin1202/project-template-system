@@ -184,7 +184,7 @@ case $CLAUDE_CONFIG in
         sed -i "s/{{PROJECT_DESCRIPTION}}/$PROJECT_DESCRIPTION/g" "$PROJECT_PATH/CLAUDE.md"
         sed -i "s/{{CREATED_DATE}}/$(date +%Y-%m-%d)/g" "$PROJECT_PATH/CLAUDE.md"
         sed -i "s/{{VERSION}}/0.1.0/g" "$PROJECT_PATH/CLAUDE.md"
-        echo "  ✓ 已設置標準專案配置"
+        echo "  [OK] 已設置標準專案配置"
         ;;
         
     "superclaude")
@@ -197,8 +197,8 @@ case $CLAUDE_CONFIG in
         cp -r "$TEMPLATE_DIR/global-configs/commands/"* "$PROJECT_PATH/.claude/commands/"
         cp -r "$TEMPLATE_DIR/global-configs/shared/"* "$PROJECT_PATH/.claude/shared/"
         
-        echo "  ✓ 已設置 SuperClaude 全域配置"
-        echo "  ✓ 已複製所有依賴文件"
+        echo "  [OK] 已設置 SuperClaude 全域配置"
+        echo "  [OK] 已複製所有依賴文件"
         ;;
         
     "merged")
@@ -245,7 +245,7 @@ EOF
         mkdir -p "$PROJECT_PATH/.claude/shared"
         cp -r "$TEMPLATE_DIR/global-configs/shared/"* "$PROJECT_PATH/.claude/shared/"
         
-        echo "  ✓ 已設置合併配置（標準 + SuperClaude 參考）"
+        echo "  [OK] 已設置合併配置（標準 + SuperClaude 參考）"
         ;;
 esac
 
@@ -260,7 +260,7 @@ echo -e "${GREEN}設置 Agent 配置...${NC}"
 for agent in "${DECLARE_AGENTS[@]}"; do
     if [ -f "$TEMPLATE_DIR/agents/${agent}.yaml" ]; then
         cp "$TEMPLATE_DIR/agents/${agent}.yaml" "$PROJECT_PATH/.claude/agents/${agent}.yaml"
-        echo "  ✓ 已添加 ${agent}"
+        echo "  [OK] 已添加 ${agent}"
     fi
 done
 
@@ -532,7 +532,7 @@ if [ "$INIT_GIT" = "y" ] || [ "$INIT_GIT" = "Y" ]; then
 fi
 
 # 完成訊息
-echo -e "\n${GREEN}✅ 專案創建成功！${NC}"
+echo -e "\n${GREEN}[SUCCESS] 專案創建成功！${NC}"
 echo -e "\n${BLUE}專案資訊:${NC}"
 echo "- 名稱: $PROJECT_NAME"
 echo "- 路徑: $PROJECT_PATH"

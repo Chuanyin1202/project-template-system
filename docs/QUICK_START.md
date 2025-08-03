@@ -4,9 +4,9 @@
 
 ## 📋 前置需求
 
-- Bash shell 環境
+- Python 3.6+（必要）
 - Git（選用）
-- 對應的開發環境（Node.js、Python、Flutter 等）
+- 對應的開發環境（Node.js、Flutter 等）
 
 ## ⚡ 快速開始
 
@@ -14,12 +14,14 @@
 
 ```bash
 # 1. 執行初始化腳本
-./project-template-system/tools/init-project.sh
+python project-template-system/tools/init-project.py    # Windows
+python3 project-template-system/tools/init-project.py   # Linux/macOS
 
 # 2. 按照提示操作：
 #    - 輸入專案名稱
 #    - 選擇專案類型
 #    - 選擇要啟用的 Agent
+#    - 選擇 CLAUDE.md 配置類型
 
 # 3. 進入專案開始開發
 cd your-project-name
@@ -29,10 +31,10 @@ cd your-project-name
 
 ```bash
 # 分析當前目錄的專案
-./project-template-system/tools/analyze-project.sh
+python project-template-system/tools/analyze-project.py
 
 # 或分析指定路徑
-./project-template-system/tools/analyze-project.sh /path/to/project
+python project-template-system/tools/analyze-project.py /path/to/project
 ```
 
 ## 🎯 典型工作流程
@@ -41,7 +43,7 @@ cd your-project-name
 
 ```bash
 # 創建專案
-./tools/init-project.sh
+python tools/init-project.py
 # 選擇: Web 應用 > JavaScript/TypeScript > 完整團隊 (A)
 
 # 開始第一個功能
@@ -53,7 +55,7 @@ cd your-project-name
 
 ```bash
 # 創建專案
-./tools/init-project.sh
+python tools/init-project.py
 # 選擇: Flutter 應用 > Dart > 開發團隊 (B)
 
 # Flutter 特定 Agent 會協助你
@@ -108,7 +110,7 @@ specs/ → Task Executor → 代碼
 
 ### Q: 現有專案如何整合？
 
-1. 運行 `analyze-project.sh`
+1. 運行 `python analyze-project.py`
 2. 系統會分析並推薦 Agent
 3. 自動創建必要的配置文件
 
@@ -121,3 +123,14 @@ specs/ → Task Executor → 代碼
 ---
 
 💡 **專業提示**：先從簡單的配置開始，隨著熟悉度增加再啟用更多 Agent！
+
+## 💻 不同平台注意事項
+
+### Windows 用戶
+- 使用 `python` 命令
+- 如果遇到編碼問題，腳本已經處理了 cp950 編碼
+- 可以直接雙擊 `init-project.bat`
+
+### Linux/macOS 用戶
+- 使用 `python3` 命令
+- 如果有 Git Bash，也可以使用 `./init-project.sh`
